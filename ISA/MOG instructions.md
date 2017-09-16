@@ -1,15 +1,15 @@
 #MOG INSTRUCTION SET
 
 ##	MEMORY (group 0x1)
-		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = *[ p  << 8 |  b ]
-		LD     %p $b %r		0b00010010 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	(r) = *[(p) << 8 |  b ]
-		LD     $p %b %r		0b00010001 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	(r) = *[ p  << 8 | (b)]
-		LD     %p %b %r		0b00010011 0b0000RRRR 0b0000PPPP 0b0000BBBB	(r) = *[(p) << 8 | (b)]
+		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = ( p  << 8 |  b )
+		LD     %p $b %r		0b00010010 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	(r) = ((p) << 8 |  b )
+		LD     $p %b %r		0b00010001 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	(r) = ( p  << 8 | (b))
+		LD     %p %b %r		0b00010011 0b0000RRRR 0b0000PPPP 0b0000BBBB	(r) = ((p) << 8 | (b))
 
-		ST     %r $p $b		0b00010100 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	( p  << 8 |  b ) = (r)
-		ST     %r %p $b		0b00010110 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	((p) << 8 |  b ) = (r)
-		ST     %r $p %b		0b00010101 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	( p  << 8 | (b)) = (r)
-		ST     %r %p %b		0b00010111 0b0000RRRR 0b0000PPPP 0b0000BBBB	((p) << 8 | (b)) = (r)
+		ST0     $p $b		0b00010100 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	( p  << 8 |  b ) = (0)
+		ST0     %p $b		0b00010110 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	((p) << 8 |  b ) = (0)
+		ST0     $p %b		0b00010101 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	( p  << 8 | (b)) = (0)
+		ST0     %p %b		0b00010111 0b0000RRRR 0b0000PPPP 0b0000BBBB	((p) << 8 | (b)) = (0)
 
 		SB     $b		0b00011000 0b00000000 0bBBBBBBBB 0b00000000	sb =  b
 		SB     %b		0b00011010 0b00000000 0b0000RRRR 0b00000000	sb = (b)
@@ -24,20 +24,17 @@
 		JMP    $p %b		0b00100001 0b00000000 0bPPPPPPPP 0b0000BBBB	pc = [ p  << 8 | (b)]
 		JMP    %p %b		0b00100011 0b00000000 0b0000PPPP 0b0000BBBB	pc = [(p) << 8 | (b)]
 
-		JCC    %c label		0b00100100 0b0000CCCC 0bPPPPPPPP 0bBBBBBBBB	pc = (c) != 0 ? [ p  << 8 |  b ] : pc
-		JCC    %c %p $b		0b00100110 0b0000CCCC 0b0000PPPP 0bBBBBBBBB	pc = (c) != 0 ? [(p) << 8 |  b ] : pc
-		JCC    %c $p %b		0b00100101 0b0000CCCC 0bPPPPPPPP 0b0000BBBB	pc = (c) != 0 ? [ p  << 8 | (b)] : pc
-		JCC    %c %p %b		0b00100111 0b0000CCCC 0b0000PPPP 0b0000BBBB	pc = (c) != 0 ? [(p) << 8 | (b)] : pc
+		JCC    label		0b00100100 0b0000CCCC 0bPPPPPPPP 0bBBBBBBBB	pc = Fc != 0 ? [ p  << 8 |  b ] : pc
+		JCC    %p $b		0b00100110 0b0000CCCC 0b0000PPPP 0bBBBBBBBB	pc = Fc != 0 ? [(p) << 8 |  b ] : pc
+		JCC    $p %b		0b00100101 0b0000CCCC 0bPPPPPPPP 0b0000BBBB	pc = Fc != 0 ? [ p  << 8 | (b)] : pc
+		JCC    %p %b		0b00100111 0b0000CCCC 0b0000PPPP 0b0000BBBB	pc = Fc != 0 ? [(p) << 8 | (b)] : pc
 
-		JSR    %c label		0b00101000 0b0000CCCC 0bPPPPPPPP 0bBBBBBBBB	pc = (c) != 0 ? {push16 pc; jmp label;} : pc
-		JSR    %c %p $b		0b00101010 0b0000CCCC 0b0000PPPP 0bBBBBBBBB	pc = (c) != 0 ? {push16 pc; jmp [(p) << 8 |  b ];} : pc
-		JSR    %c $p %p		0b00101001 0b0000CCCC 0bPPPPPPPP 0b0000BBBB	pc = (c) != 0 ? {push16 pc; jmp [ p  << 8 | (b)];} : pc
-		JSR    %c %p %b		0b00101011 0b0000CCCC 0b0000PPPP 0b0000BBBB	pc = (c) != 0 ? {push16 pc; jmp [(p) << 8 | (b)];} : pc
+		JSR    label		0b00101000 0b0000CCCC 0bPPPPPPPP 0bBBBBBBBB	pc = Fc != 0 ? {push pc; jmp label;} : pc
+		JSR    %p $b		0b00101010 0b0000CCCC 0b0000PPPP 0bBBBBBBBB	pc = Fc != 0 ? {push pc; jmp [(p) << 8 |  b ];} : pc
+		JSR    $p %p		0b00101001 0b0000CCCC 0bPPPPPPPP 0b0000BBBB	pc = Fc != 0 ? {push pc; jmp [ p  << 8 | (b)];} : pc
+		JSR    %p %b		0b00101011 0b0000CCCC 0b0000PPPP 0b0000BBBB	pc = Fc != 0 ? {push pc; jmp [(p) << 8 | (b)];} : pc
 
-		RET    %v $p $b		0b00101100 0b0000VVVV 0bPPPPPPPP 0bBBBBBBBB	st (v)  p   b ; pc = pop16;
-		RET    %v %p $b		0b00101110 0b0000VVVV 0b0000PPPP 0bBBBBBBBB	st (v) (p)  b ; pc = pop16;
-		RET    %v $p %b		0b00101101 0b0000VVVV 0bPPPPPPPP 0b0000BBBB	st (v)  p  (b); pc = pop16;
-		RET    %v %p %b		0b00101111 0b0000VVVV 0b0000PPPP 0b0000BBBB	st (v) (p) (b); pc = pop16;
+		RET			0b00101100 0b00000000 0b00000000 0b00000000	pc = pop;
 
 
 ##	UNSIGNED COMPARISON (group 0x3)
@@ -155,3 +152,45 @@
 ##	USER INPUT (group 0x9)
 		GETC   %r		0b10010000 0b0000RRRR 0b00000000 0b00000000	(r) = key
 		WAITC  %r		0b10010100 0b0000RRRR 0b00000000 0b00000000	emptyFIFO ? (r) = 0 : (r) = GETC r
+
+##	Recapitulative table
+C is for a constant, while R is a register
+
+ LOW NIBBLE / HIGH NIBBLE|0x0|0x1|0x2|0x3|0x4|0x5|0x6|0x7|0x8|0x9|0xA|0xB|0xC|0xD|0xE|0xF
+ ------------------------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
+ 0x0                     |nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0x1|ld cc|ld cr|ld rc|ld rr|st0 cc|st0 cr|st0 rc|st0 rr|sb c|nop|sb r|nop|mov c|nop|mov r|nop
+ 0x2|jmp cc|jmp cr|jmp rc|jmp rr|jcc cc|jcc cr|jcc rc|jcc rr|jsr cc|jsr cr|jsr rc|jsr rr|ret|nop|nop|nop
+ 0x3
+ 0x4
+ 0x5
+ 0x6
+ 0x7
+ 0x8
+ 0x9
+ 0xA
+ 0xB
+ 0xC
+ 0xD
+ 0xE
+ 0xF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
