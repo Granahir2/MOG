@@ -1,9 +1,6 @@
 # MOG INSTRUCTION SET
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
 	Double Constant (flag 00) : The operands are passed as-is to the opcode
 	Right  Constant (flag 10) : The left operand is replaced by the register corresponding to it's ID, the right operand is passed as-is
