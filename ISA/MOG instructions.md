@@ -144,10 +144,10 @@ The NOPs of group 0x0 are implementation defined and can change between hardware
 		MULHI  $a %b %r		0b01111001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  * (b)] >> 8;
 		MULHI  %a %b %r		0b01111011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) * (b)] >> 8;
 
-		ABS    $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] +  b ] >> 1;
-		ABS    %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] +  b ] >> 1;
-		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] + (b)] >> 1;
-		ABS    %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] + (b)] >> 1;
+		ABSHI  $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] +  b ] >> 1;
+		ABSHI  %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] +  b ] >> 1;
+		ABSHI  $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] + (b)] >> 1;
+		ABSHI  %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] + (b)] >> 1;
 
 ##	SHIFTS (group 0x8)
 		// SHL and SHR use 0-extending.
