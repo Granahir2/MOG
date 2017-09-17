@@ -1,5 +1,6 @@
 # MOG INSTRUCTION SET
 
+<<<<<<< HEAD
 
 The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
 	Double Constant (flag 00) : The operands are passed as-is to the opcode
@@ -10,6 +11,15 @@ The rightmost operand is the destination and thus, is not affected by the mode.
 The NOPs of group 0x0 are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
 
 
+=======
+	The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
+		Double Constant (flag 00) : The operands are passed as-is to the opcode
+		Right  Constant (flag 10) : The left operand is replaced by the register corresponding to it's ID, the right operand is passed as-is
+		Left   Constant (flag 01) : The right operand is replaced by the register corresponding to it's ID, the left operand is passed as-is
+		No     Constant (flag 11) : All the operands are replaced by the register corresponding to their IDs
+	The rightmost operand is the destination and thus, is not affected by the mode.
+	The NOPs of group 0x0 are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
+>>>>>>> master
 ##	MEMORY (group 0x1)
 		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = ( p  << 8 |  b )
 		LD     %p $b %r		0b00010010 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	(r) = ((p) << 8 |  b )
