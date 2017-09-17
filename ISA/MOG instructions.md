@@ -161,19 +161,19 @@ C is for a constant, while R is a register
  0x0                     |nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
  0x1|ld cc|ld cr|ld rc|ld rr|st0 cc|st0 cr|st0 rc|st0 rr|sb c|nop|sb r|nop|mov c|nop|mov r|nop
  0x2|jmp cc|jmp cr|jmp rc|jmp rr|jcc cc|jcc cr|jcc rc|jcc rr|jsr cc|jsr cr|jsr rc|jsr rr|ret|nop|nop|nop
- 0x3
- 0x4
- 0x5
- 0x6
- 0x7
- 0x8
- 0x9
- 0xA
- 0xB
- 0xC
- 0xD
- 0xE
- 0xF
+ 0x3|tlt cc|tlt cr|tlt rc|tlt rr|tgt cc|tgt cr|tgt rc|tgt rr|teq cc|teq cr|teq rc|teq rr|tdt cc|tdt cr|tdt rc|tdt rr
+ 0x4|setf cc|setf cr|setf rc|setf rr|movf cc|movf cr|movf rc|movf rr|nop|nop|nop|nop|nop|nop|nop|nop
+ 0x5|and cc|and cr|and rc|and rr|or cc|or cr|or rc|or rr|xor cc|xor cr|xor rc|xor rr|xnot cc|xnot cr|xnot rc|xnot rr
+ 0x6|add cc|add cr|add rc|add rr|sub cc|sub cr|sub rc|sub rr|mul cc|mul cr|mul rc|mul rr|not|not|not|not
+ 0x7|addhi cc|addhi cr|addhi rc|addhi rr|subhi cc|subhi cr|subhi rc|subhi rr|mulhi cc|mulhi cr|mulhi rc|mulhi rr|not|not|not|not
+ 0x8|shl cc|shl cr|shl rc|shl rr|shr cc|shr cr|shr rc|shr rr|rol cc|rol cr|rol rc|rol rr|ror cc|ror cr|ror rc|ror rr
+ 0x9|getc r|not|not|not|waitc r|not|not|not|not|not|not|not|not|not|not|not
+ 0xA|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0xB|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0xC|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0xD|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0xE|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0xF|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
 
 
 
