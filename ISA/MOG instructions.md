@@ -1,6 +1,5 @@
 # MOG INSTRUCTION SET
 
-<<<<<<< HEAD
 
 The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
 	Double Constant (flag 00) : The operands are passed as-is to the opcode
@@ -11,15 +10,6 @@ The rightmost operand is the destination and thus, is not affected by the mode.
 The NOPs of group 0x0 are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
 
 
-=======
-	The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
-		Double Constant (flag 00) : The operands are passed as-is to the opcode
-		Right  Constant (flag 10) : The left operand is replaced by the register corresponding to it's ID, the right operand is passed as-is
-		Left   Constant (flag 01) : The right operand is replaced by the register corresponding to it's ID, the left operand is passed as-is
-		No     Constant (flag 11) : All the operands are replaced by the register corresponding to their IDs
-	The rightmost operand is the destination and thus, is not affected by the mode.
-	The NOPs of group 0x0 are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
->>>>>>> master
 ##	MEMORY (group 0x1)
 		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = ( p  << 8 |  b )
 		LD     %p $b %r		0b00010010 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	(r) = ((p) << 8 |  b )
@@ -184,16 +174,16 @@ C is for a constant, while R is a register
  0x3|tlt cc|tlt cr|tlt rc|tlt rr|tgt cc|tgt cr|tgt rc|tgt rr|teq cc|teq cr|teq rc|teq rr|tdt cc|tdt cr|tdt rc|tdt rr
  0x4|setf cc|setf cr|setf rc|setf rr|movf cc|movf cr|movf rc|movf rr|nop|nop|nop|nop|nop|nop|nop|nop
  0x5|and cc|and cr|and rc|and rr|or cc|or cr|or rc|or rr|xor cc|xor cr|xor rc|xor rr|xnot cc|xnot cr|xnot rc|xnot rr
- 0x6|add cc|add cr|add rc|add rr|sub cc|sub cr|sub rc|sub rr|mul cc|mul cr|mul rc|mul rr|not|not|not|not
- 0x7|addhi cc|addhi cr|addhi rc|addhi rr|subhi cc|subhi cr|subhi rc|subhi rr|mulhi cc|mulhi cr|mulhi rc|mulhi rr|not|not|not|not
+ 0x6|add cc|add cr|add rc|add rr|sub cc|sub cr|sub rc|sub rr|mul cc|mul cr|mul rc|mul rr|nop|nop|nop|nop
+ 0x7|addhi cc|addhi cr|addhi rc|addhi rr|subhi cc|subhi cr|subhi rc|subhi rr|mulhi cc|mulhi cr|mulhi rc|mulhi rr|nop|nop|nop|nop
  0x8|shl cc|shl cr|shl rc|shl rr|shr cc|shr cr|shr rc|shr rr|rol cc|rol cr|rol rc|rol rr|ror cc|ror cr|ror rc|ror rr
- 0x9|getc r|not|not|not|waitc r|not|not|not|not|not|not|not|not|not|not|not
- 0xA|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
- 0xB|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
- 0xC|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
- 0xD|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
- 0xE|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
- 0xF|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not|not
+ 0x9|getc r|nop|nop|nop|waitc r|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xA|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xB|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xC|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xD|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xE|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
+ 0xF|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
 
 
 
