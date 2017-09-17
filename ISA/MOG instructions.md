@@ -118,27 +118,36 @@ The NOPs of group 0x0 are implementation defined and can change between hardware
 		SUB    $a %b %r		0b01100101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  - (b)]; Fo = 9th bit set; Fs = 8th bit ^ 9th bit
 		SUB    %a %b %r		0b01100111 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) - (b)]; Fo = 9th bit set; Fs = 8th bit ^ 9th bit
 
-		MUL   $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) =  a  *  b ; Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
-		MUL   %a $b %r		0b01101110 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = (a) *  b ; Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
-		MUL   $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) =  a  * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
-		MUL   %a %b %r		0b01101111 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = (a) * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
-
+		MUL    $a $b %r		0b01101000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) =  a  *  b ; Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
+		MUL    %a $b %r		0b01101010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = (a) *  b ; Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
+		MUL    $a %b %r		0b01101001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) =  a  * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
+		MUL    %a %b %r		0b01101011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = (a) * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
 		
+		ABS    $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[ a ] +  b ; Fo = overflow on abs[ a ] OR on abs[ a ] +  b
+		ABS    %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[(a)] +  b ; Fo = overflow on abs[(a)] OR on abs[(a)] +  b
+		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[ a ] + (b); Fo = overflow on abs[ a ] OR on abs[ a ] + (b)
+		ABS    %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[(a)] + (b); Fo = overflow on abs[(a)] OR on abs[(a)] + (b)
+
 ##	HIGH BITS ALU (group 0x7)
-		ADDHI  $a $b %r		0b01110000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  +  b ] << 1;
-		ADDHI  %a $b %r		0b01110010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) +  b ] << 1;
-		ADDHI  $a %b %r		0b01110001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  + (b)] << 1;
-		ADDHI  %a %b %r		0b01110011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) + (b)] << 1;
+		ADDHI  $a $b %r		0b01110000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  +  b ] >> 1;
+		ADDHI  %a $b %r		0b01110010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) +  b ] >> 1;
+		ADDHI  $a %b %r		0b01110001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  + (b)] >> 1;
+		ADDHI  %a %b %r		0b01110011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) + (b)] >> 1;
 
-		SUBHI  $a $b %r		0b01110100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  -  b ] << 1;
-		SUBHI  %a $b %r		0b01110110 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) -  b ] << 1;
-		SUBHI  $a %b %r		0b01110101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  - (b)] << 1;
-		SUBHI  %a %b %r		0b01110111 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) - (b)] << 1;
+		SUBHI  $a $b %r		0b01110100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  -  b ] >> 1;
+		SUBHI  %a $b %r		0b01110110 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) -  b ] >> 1;
+		SUBHI  $a %b %r		0b01110101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  - (b)] >> 1;
+		SUBHI  %a %b %r		0b01110111 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) - (b)] >> 1;
 
-		MULHI  $a $b %r		0b01111000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  *  b ] << 8;
-		MULHI  %a $b %r		0b01111010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) *  b ] << 8;
-		MULHI  $a %b %r		0b01111001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  * (b)] << 8;
-		MULHI  %a %b %r		0b01111011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) * (b)] << 8;
+		MULHI  $a $b %r		0b01111000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  *  b ] >> 8;
+		MULHI  %a $b %r		0b01111010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) *  b ] >> 8;
+		MULHI  $a %b %r		0b01111001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [ a  * (b)] >> 8;
+		MULHI  %a %b %r		0b01111011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = [(a) * (b)] >> 8;
+
+		ABS    $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] +  b ] >> 1;
+		ABS    %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] +  b ] >> 1;
+		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] + (b)] >> 1;
+		ABS    %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] + (b)] >> 1;
 
 ##	SHIFTS (group 0x8)
 		// SHL and SHR use 0-extending.
@@ -178,8 +187,8 @@ C is for a constant, while R is a register
  0x3|tlt cc|tlt cr|tlt rc|tlt rr|tgt cc|tgt cr|tgt rc|tgt rr|teq cc|teq cr|teq rc|teq rr|tdt cc|tdt cr|tdt rc|tdt rr
  0x4|setf cc|setf cr|setf rc|setf rr|movf cc|movf cr|movf rc|movf rr|nop|nop|nop|nop|nop|nop|nop|nop
  0x5|and cc|and cr|and rc|and rr|or cc|or cr|or rc|or rr|xor cc|xor cr|xor rc|xor rr|xnot cc|xnot cr|xnot rc|xnot rr
- 0x6|add cc|add cr|add rc|add rr|sub cc|sub cr|sub rc|sub rr|mul cc|mul cr|mul rc|mul rr|nop|nop|nop|nop
- 0x7|addhi cc|addhi cr|addhi rc|addhi rr|subhi cc|subhi cr|subhi rc|subhi rr|mulhi cc|mulhi cr|mulhi rc|mulhi rr|nop|nop|nop|nop
+ 0x6|add cc|add cr|add rc|add rr|sub cc|sub cr|sub rc|sub rr|mul cc|mul cr|mul rc|mul rr|abs cc|abs rc|abs cr|abs rr
+ 0x7|addhi cc|addhi cr|addhi rc|addhi rr|subhi cc|subhi cr|subhi rc|subhi rr|mulhi cc|mulhi cr|mulhi rc|mulhi rr|abshi cc|abshi cr|abshi rc|abshi rr
  0x8|shl cc|shl cr|shl rc|shl rr|shr cc|shr cr|shr rc|shr rr|rol cc|rol cr|rol rc|rol rr|ror cc|ror cr|ror rc|ror rr
  0x9|getc r|nop|nop|nop|waitc r|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
  0xA|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
