@@ -11,8 +11,12 @@ The mog instruction set is split between 16 groups of 4 opcodes, each opcode hav
 
 
 The rightmost operand is the destination and thus, is not affected by the mode.
-The NOPs of group 0x0 are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
+The NOPs except the nop with the opcode 0xFF are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
+All MOG architectures **must** implement these instructions, and should be binary and source compatible if not using hardware specific NOPs.
 
+
+For source code clarity, the hardwares NOPs can be accessed via macros to create readable code, with the special syntax NOPXX, with XX an hexadecimal number.
+While this syntax is only recommended for the hardware defined opcodes, it can be used to macro standard opcodes too.
 
 ##	MEMORY (group 0x1)
 		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = ( p  << 8 |  b )
@@ -125,8 +129,8 @@ The NOPs of group 0x0 are implementation defined and can change between hardware
 		
 		ABS    $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[ a ] +  b ; Fo = overflow on abs[ a ] OR on abs[ a ] +  b
 		ABS    %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[(a)] +  b ; Fo = overflow on abs[(a)] OR on abs[(a)] +  b
-		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[ a ] + (b); Fo = overflow on abs[ a ] OR on abs[ a ] + (b)
-		ABS    %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[(a)] + (b); Fo = overflow on abs[(a)] OR on abs[(a)] + (b)
+		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = abs[ a ] + (b); Fo = overflow on abs[ a ] OR on abs[ a ] + (b)
+		ABS    %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = abs[(a)] + (b); Fo = overflow on abs[(a)] OR on abs[(a)] + (b)
 
 ##	HIGH BITS ALU (group 0x7)
 		ADDHI  $a $b %r		0b01110000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  +  b ] >> 1;
@@ -146,8 +150,8 @@ The NOPs of group 0x0 are implementation defined and can change between hardware
 
 		ABSHI  $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] +  b ] >> 1;
 		ABSHI  %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] +  b ] >> 1;
-		ABSHI  $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[ a ] + (b)] >> 1;
-		ABSHI  %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [abs[(a)] + (b)] >> 1;
+		ABSHI  $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [abs[ a ] + (b)] >> 1;
+		ABSHI  %a %b %r		0b01101111 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = [abs[(a)] + (b)] >> 1;
 
 ##	SHIFTS (group 0x8)
 		// SHL and SHR use 0-extending.
