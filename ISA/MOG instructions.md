@@ -1,7 +1,7 @@
-# MOG INSTRUCTION SET
+	# MOG INSTRUCTION SET
 
 
-The mog instruction set is split between 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
+The mog instruction set contains 16 groups of 4 opcodes, each opcode having 4 modes depending on the last 2 bits :
 
 
 	Double Constant (flag 00) : The operands are passed as-is to the opcode
@@ -10,13 +10,14 @@ The mog instruction set is split between 16 groups of 4 opcodes, each opcode hav
 	No     Constant (flag 11) : All the operands are replaced by the register corresponding to their IDs
 
 
-The rightmost operand is the destination and thus, is not affected by the mode.
-The NOPs except the nop with the opcode 0xFF are implementation defined and can change between hardwares. It's not recommended to use them, except when portability is not an issue.
+The destination register operand is the destination and thus, is not affected by the mode.
+The out of range NOPs (those who aren't the consequence of missing opcode modes) except the nop with the opcode 0x00 are implementation defined and can change between hardwares.
+It's not recommended to use them, except when portability is not an issue.
 All MOG architectures **must** implement these instructions, and should be binary and source compatible if not using hardware specific NOPs.
 
 
-For source code clarity, the hardwares NOPs can be accessed via macros to create readable code, with the special syntax NOPXX, with XX an hexadecimal number.
-While this syntax is only recommended for the hardware defined opcodes, it can be used to macro standard opcodes too.
+For source code clarity, the hardwares NOPs can be accessed via macros to create readable code, with the special syntax OPCXX, with XX an hexadecimal number.
+Standard extensions to the MOG IS can be loaded with compiler options.
 
 ##	MEMORY (group 0x1)
 		LD     $p $b %r		0b00010000 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	(r) = ( p  << 8 |  b )
@@ -24,20 +25,20 @@ While this syntax is only recommended for the hardware defined opcodes, it can b
 		LD     $p %b %r		0b00010001 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	(r) = ( p  << 8 | (b))
 		LD     %p %b %r		0b00010011 0b0000RRRR 0b0000PPPP 0b0000BBBB	(r) = ((p) << 8 | (b))
 
-		ST0     $p $b		0b00010100 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	( p  << 8 |  b ) = (0)
-		ST0     %p $b		0b00010110 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	((p) << 8 |  b ) = (0)
-		ST0     $p %b		0b00010101 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	( p  << 8 | (b)) = (0)
-		ST0     %p %b		0b00010111 0b0000RRRR 0b0000PPPP 0b0000BBBB	((p) << 8 | (b)) = (0)
+		ST0    $p $b		0b00010100 0b0000RRRR 0bPPPPPPPP 0bBBBBBBBB	( p  << 8 |  b ) = (0)
+		ST0    %p $b		0b00010110 0b0000RRRR 0b0000PPPP 0bBBBBBBBB	((p) << 8 |  b ) = (0)
+		ST0    $p %b		0b00010101 0b0000RRRR 0bPPPPPPPP 0b0000BBBB	( p  << 8 | (b)) = (0)
+		ST0    %p %b		0b00010111 0b0000RRRR 0b0000PPPP 0b0000BBBB	((p) << 8 | (b)) = (0)
 
 		SB     $b		0b00011000 0b00000000 0bBBBBBBBB 0b00000000	sb =  b
 		SB     %b		0b00011010 0b00000000 0b0000RRRR 0b00000000	sb = (b)
 
-		MOV    $c %r		0b00011100 0b0000RRRR 0bCCCCCCCC 0b00000000	(r) =  c 
+		MOV    $c %r		0b00011100 0b0000RRRR 0bCCCCCCCC 0b00000000	(r) =  c
 		MOV    %c %r		0b00011110 0b0000RRRR 0b0000CCCC 0b00000000	(r) = (c)
 
 
 ##	CONTROL FLOW (group 0x2)
-		JMP    label		0b00100000 0b00000000 0bPPPPPPPP 0bBBBBBBBB	pc = [ p  << 8 |  b ] 
+		JMP    label		0b00100000 0b00000000 0bPPPPPPPP 0bBBBBBBBB	pc = [ p  << 8 |  b ]
 		JMP    %p $b		0b00100010 0b00000000 0b0000PPPP 0bBBBBBBBB	pc = [(p) << 8 |  b ]
 		JMP    $p %b		0b00100001 0b00000000 0bPPPPPPPP 0b0000BBBB	pc = [ p  << 8 | (b)]
 		JMP    %p %b		0b00100011 0b00000000 0b0000PPPP 0b0000BBBB	pc = [(p) << 8 | (b)]
@@ -76,7 +77,7 @@ While this syntax is only recommended for the hardware defined opcodes, it can b
 		TDT    $a %b %r		0b00111101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) =  a  != (b) ? 1 : 0
 		TDT    %a %b %r		0b00111111 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = (a) != (b) ? 1 : 0
 
-	
+
 ##	FLAG/BIT MANIPULATION (group 0x4)
 		SETF   $v $p		0b01000000 0b00000000 0b0000000V 0b00000PPP	Fp   =  v
 		SETF   %v $p		0b01000010 0b00000000 0b0000VVVV 0b00000PPP	Fp   = (v)
@@ -110,7 +111,7 @@ While this syntax is only recommended for the hardware defined opcodes, it can b
 		XNOT   $i %k %r		0b01011101 0b0000RRRR 0bIIIIIIII 0b0000KKKK	(r) = ![ i  ^ (k)]
 		XNOT   %i %k %r		0b01011111 0b0000RRRR 0b0000IIII 0b0000KKKK	(r) = ![(i) ^ (k)]
 
-	
+
 ##	INTEGER ALU (group 0x6)
 		ADD    $a $b %r		0b01100000 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = [ a  +  b ]; Fo = 9th bit set; Fs = 8th bit ^ 9th bit
 		ADD    %a $b %r		0b01100010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = [(a) +  b ]; Fo = 9th bit set; Fs = 8th bit ^ 9th bit
@@ -126,7 +127,7 @@ While this syntax is only recommended for the hardware defined opcodes, it can b
 		MUL    %a $b %r		0b01101010 0b0000RRRR 0b0000AAAA 0bBBBBBBBB	(r) = (a) *  b ; Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
 		MUL    $a %b %r		0b01101001 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) =  a  * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
 		MUL    %a %b %r		0b01101011 0b0000RRRR 0b0000AAAA 0b0000BBBB	(r) = (a) * (b); Fo = is any of the bits on 2nd byte set; Fs = sign bit ^ all the second byte and the 8th bit of the first byte
-		
+
 		ABS    $a $b %r		0b01101100 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[ a ] +  b ; Fo = overflow on abs[ a ] OR on abs[ a ] +  b
 		ABS    %a $b %r		0b01101110 0b0000RRRR 0bAAAAAAAA 0bBBBBBBBB	(r) = abs[(a)] +  b ; Fo = overflow on abs[(a)] OR on abs[(a)] +  b
 		ABS    $a %b %r		0b01101101 0b0000RRRR 0bAAAAAAAA 0b0000BBBB	(r) = abs[ a ] + (b); Fo = overflow on abs[ a ] OR on abs[ a ] + (b)
@@ -201,23 +202,3 @@ C is for a constant, while R is a register
  0xD|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
  0xE|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
  0xF|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop|nop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
